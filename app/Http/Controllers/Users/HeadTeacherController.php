@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
-use App\Http\Requests\HeadTeacherRequest;
+use App\Http\Controllers\Controller;
 use App\Models\HeadTeacher;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class HeadTeacherController extends Controller
 {
     /**
      * Получение списка всех завучей
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         return response()->json(HeadTeacher::all(), 200);
     }
@@ -22,6 +24,7 @@ class HeadTeacherController extends Controller
      * Получение одного завуча
      *
      * @param HeadTeacher $headteacher
+     * @param Request $request
      * @return JsonResponse
      */
     public function show(HeadTeacher $headteacher)
@@ -32,11 +35,11 @@ class HeadTeacherController extends Controller
     /**
      * Обновление завуча
      *
-     * @param HeadTeacherRequest $request
+     * @param Request $request
      * @param HeadTeacher $headteacher
      * @return JsonResponse
      */
-    public function update(HeadTeacherRequest $request, HeadTeacher $headteacher)
+    public function update(Request $request, HeadTeacher $headteacher)
     {
         $headteacher->update($request->all());
         return response()->json($headteacher, 200);

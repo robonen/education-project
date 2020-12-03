@@ -17,7 +17,7 @@ class CreateSchoolClassesTable extends Migration
             $table->id();
             $table->unsignedTinyInteger('number');
             $table->string('letter', 1);
-            $table->unsignedTinyInteger('count_students');
+            $table->unsignedTinyInteger('count_students')->default(0);
             $table->string('profile');
             $table->unsignedInteger('classroom_teacher')->nullable();
             $table->timestamps();
@@ -25,6 +25,8 @@ class CreateSchoolClassesTable extends Migration
             $table->foreign('classroom_teacher')
                 ->references('id')->on('teachers')
                 ->onDelete('set null');
+
+            $table->unique(['number', 'letter']);
         });
     }
 

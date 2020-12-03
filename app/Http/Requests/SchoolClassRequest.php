@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class SchoolClassRequest extends ApiFormRequest
 {
     /**
@@ -13,11 +11,12 @@ class SchoolClassRequest extends ApiFormRequest
      */
     public function rules()
     {
+
         return [
             'number' => 'required|integer|between:1,11',
-            'letter' => 'required|max:1',
-            'count_students' => 'required|integer',
+            'letter' => 'required|max:1|regex:/[а-я]/',
             'profile' => 'required',
         ];
     }
+
 }

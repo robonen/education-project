@@ -10,7 +10,14 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $guarded = [
         'user_id',
+        'updated_at',
     ];
+
+    public function schoolClass()
+    {
+        return $this->belongsTo(SchoolClass::class, 'class_id');
+    }
+
 }

@@ -12,12 +12,11 @@ class SchoolClass extends Model
     protected $fillable = [
         'number',
         'letter',
-        'count_students',
         'profile',
     ];
 
-    public function teacher()
+    public function students()
     {
-        return $this->belongsTo(Teacher::class, 'classroom_teacher');
+        return $this->hasMany(Student::class);
     }
 }

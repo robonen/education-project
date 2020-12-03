@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HeadTeacher extends Model
+class Theme extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'user_id',
+    protected $fillable = [
+        'name',
+        'variant'
     ];
 
-    public function user()
+    public function banktaks()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(BankTask::class);
     }
 }

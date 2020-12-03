@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HeadTeacher extends Model
+class Subject extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'user_id',
+    protected $fillable = [
+        'name',
     ];
 
-    public function user()
+    public function banktasks()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(BankTask::class);
     }
 }

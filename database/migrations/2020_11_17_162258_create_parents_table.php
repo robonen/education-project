@@ -17,15 +17,10 @@ class CreateParentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('photo')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('second_name')->nullable();
-            $table->string('middle_name')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('address')->nullable();
-            $table->string('passport')->nullable();
-            $table->string('place_of_work')->nullable();
-            $table->string('position_at_work')->nullable();
+            $table->string('name')->nullable();
+            $table->string('surname')->nullable();
+            $table->string('patronymic')->nullable();
+            $table->string('information_about_me')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-class HeadTeacherRequest extends ApiFormRequest
+
+class SubjectRequest extends ApiFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,8 +13,7 @@ class HeadTeacherRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'date_of_birth' => 'date_format:Y/m/d|before:today|after:1900-01-01',
-            'phone_number' => 'regex:/^\+?7\d{10}$/',
+            'name' => 'required|unique:subjects',
         ];
     }
 }

@@ -10,7 +10,7 @@ class Teacher extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $guarded = [
         'user_id',
     ];
 
@@ -18,4 +18,5 @@ class Teacher extends Model
     {
         return $this->hasOne(SchoolClass::class, 'classroom_teacher');
     }
+
 }
