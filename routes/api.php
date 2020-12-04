@@ -24,6 +24,8 @@ Route::post('classes/{class}/teacher', 'SchoolClassController@addClassroomTeache
 
 Route::apiResource('themes', 'ThemeController');
 
+Route::apiResource('timetables', 'TimetableController');
+
 Route::get('banktasks', 'BankTaskController@index'); //получение списка всех заданий
 Route::group(['prefix' => 'banktask'], function () {
     Route::post('', 'BankTaskController@store'); //создание задания
