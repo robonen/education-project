@@ -20,7 +20,7 @@ class TimetableFilter extends QueryFilter
 
     protected function subject($value)
     {
-        $this->builder = $this->builder->where('type_event', $value);
+        $this->builder = $this->builder->where('subject_id', $value);
     }
 
     protected function classroom($value)

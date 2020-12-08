@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Filters\TimetableFilter;
 use App\Http\Requests\TimetableRequest;
 use App\Models\SchoolClass;
-use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Timetable;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class TimetableController extends Controller
@@ -22,17 +21,17 @@ class TimetableController extends Controller
         ]);
         $builder = Timetable::all()->sortBy('timeStart');
         $timetables = (new TimetableFilter($builder, $request))->apply()->values();
-        $answer = [];
+        $arrayTimetables = [];
         for ($i = 0; $i < 6; $i++) {
             $date = Carbon::parse($request->input('date'))
                 ->addDays($i)
                 ->format('Y-m-d');
-            array_push($answer, [$date => $timetables->where('date', $date)->values()]);
+            array_push($arrayTimetables, [$date => $timetables->where('date', $date)->values()]);
         }
-        return response()->json($answer, 200);
+        return response()->json($arrayTimetables, 200);
     }
 
-     //Получение расписания
+     //Получение урока
     public function show(Timetable $timetable)
     {
         return response()->json($timetable, 200);
@@ -42,10 +41,11 @@ class TimetableController extends Controller
     public function store(TimetableRequest $request)
     {
         foreach($request->input('timetables') as $timetable) {
-            SchoolClass::findOrFail($timetable['class_id']);
-            Teacher::findOrFail($timetable['teacher_id']);
-            Subject::findOrFail($timetable['subject_id']);
-            Timetable::create($timetable);
+            try {
+                Timetable::create($timetable);
+            }catch (QueryException $e) {
+                return response()->json(['message' => 'Not found class, teacher or subject'], 400);
+            }
         }
 
         return response()->json(['message' => 'Timetable was created'], 201);
@@ -62,10 +62,11 @@ class TimetableController extends Controller
             'time_start' => 'required|date_format:H:i',
             'time_end' => 'required|date_format:H:i|after:time_start',
         ]);
-        SchoolClass::findOrFail($request->input('class_id'));
-        Teacher::findOrFail($request->input('teacher_id'));
-        Subject::findOrFail($request->input('subject_id'));
-        $timetable->update($request->all());
+        try {
+            $timetable->update($request->all());
+        }catch (QueryException $e) {
+            return response()->json(['message' => 'Not found class, teacher or subject'], 400);
+        }
         return response()->json(['message' => 'Timetable was updated'], 200);
     }
 
@@ -75,4 +76,5 @@ class TimetableController extends Controller
         $timetable->delete();
         return response()->json('', 204);
     }
+
 }
