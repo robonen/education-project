@@ -19,4 +19,9 @@ class Teacher extends Model
         return $this->hasOne(SchoolClass::class, 'classroom_teacher');
     }
 
+    public function timetables()
+    {
+        return $this->hasMany(Timetable::class);
+    }
+
 }

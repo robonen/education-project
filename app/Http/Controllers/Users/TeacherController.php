@@ -44,4 +44,14 @@ class TeacherController extends Controller
         $teacher->update($request->all());
         return response()->json($teacher, 200);
     }
+
+    public function getClasses(Teacher $teacher)
+    {
+        $timetables = $teacher->timetables;
+        $classes = [];
+        foreach ($timetables as $timetable) {
+            array_push($classes, $timetable->schoolClass->only('id','number','letter'));
+        }
+        return response()->json(collect($classes)->unique(), 200);
+    }
 }

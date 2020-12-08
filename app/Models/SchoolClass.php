@@ -17,12 +17,13 @@ class SchoolClass extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class, 'class_id');
     }
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, 'academic_plans')->withPivot('hours_per_week', 'hours_per_year');
+        return $this->belongsToMany(Subject::class, 'academic_plans', 'class_id')
+            ->withPivot('hours_per_week', 'hours_per_year');
     }
 
 }

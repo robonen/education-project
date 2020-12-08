@@ -20,7 +20,8 @@ class Subject extends Model
 
     public function schoolClasses()
     {
-        return $this->belongsToMany(SchoolClass::class, 'academic_plans')->withPivot('hours_per_week', 'hours_per_year');
+        return $this->belongsToMany(SchoolClass::class, 'academic_plans', 'class_id')
+            ->withPivot('hours_per_week', 'hours_per_year');
     }
 
 }
