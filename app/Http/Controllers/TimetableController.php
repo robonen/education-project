@@ -20,6 +20,15 @@ class TimetableController extends Controller
         ]);
         $builder = Timetable::all()->sortBy('timeStart');
         $timetables = (new TimetableFilter($builder, $request))->apply()->values();
+        if (!$request->filled('date')) {
+            $now = Carbon::now();
+            $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+            $weekEndDate = Carbon::parse($weekStartDate)
+                ->addDays(5)
+                ->format('Y-m-d');
+            $timetables = $timetables->whereBetween('date', [$weekStartDate, $weekEndDate]);
+        }
+
         $filterTimetables = collect([]);
         foreach ($timetables as $timetable) {
             $subject = $timetable->subject->name;
@@ -36,12 +45,16 @@ class TimetableController extends Controller
                 'class' => $class,
             ]);
         }
+
         $dateTimetables = [];
-        for ($i = 0; $i < 6; $i++) {
-            $date = Carbon::parse($request->input('date'))
-                ->addDays($i)
-                ->format('Y-m-d');
-            array_push($dateTimetables, [$date => $filterTimetables->where('date', $date)->values()]);
+        if (!$filterTimetables->isEmpty()) {
+            for ($i = 0; $i < 6; $i++) {
+                $date = Carbon::parse($request->input('date'))
+                    ->startOfWeek()
+                    ->addDays($i)
+                    ->format('Y-m-d');
+                array_push($dateTimetables, [$date => $filterTimetables->where('date', $date)->values()]);
+            }
         }
         return response()->json($dateTimetables, 200);
     }

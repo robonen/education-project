@@ -30,11 +30,12 @@ class TimetableFilter extends QueryFilter
 
     protected function date($value)
     {
-        $start_date = str_replace('/', '-', $value);
-        $end_date = Carbon::parse($start_date)
+        $formatValue = str_replace('/', '-', $value);
+        $weekStartDate = Carbon::parse($formatValue)->startOfWeek()->format('Y-m-d');
+        $weekEndDate = Carbon::parse($weekStartDate)
             ->addDays(5)
             ->format('Y-m-d');
-        $this->builder = $this->builder->whereBetween('date', [$start_date, $end_date]);
+        $this->builder = $this->builder->whereBetween('date', [$weekStartDate, $weekEndDate]);
     }
 
 }
