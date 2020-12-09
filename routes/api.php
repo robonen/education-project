@@ -12,7 +12,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::apiResource('headteachers', 'Users\HeadTeacherController');
 
 Route::apiResource('teachers', 'Users\TeacherController');
-Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses');
+Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses'); //получить классы у которых ведет учитель
 
 Route::apiResource('students', 'Users\StudentController');
 
@@ -22,8 +22,8 @@ Route::apiResource('subjects', 'SubjectController');
 
 Route::apiResource('classes', 'SchoolClassController');
 Route::post('classes/{class}/teacher', 'SchoolClassController@addTeacher');
-Route::get('classes/{class}/students', 'SchoolClassController@getStudents');
-Route::get('classes/{class}/subjects', 'SchoolClassController@getSubjects');
+Route::get('classes/{class}/students', 'SchoolClassController@getStudents'); //все ученики класса
+Route::get('classes/{class}/subjects', 'SchoolClassController@getSubjects'); //все предметы класса
 
 Route::apiResource('themes', 'ThemeController');
 
