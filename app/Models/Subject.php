@@ -13,6 +13,11 @@ class Subject extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function banktasks()
     {
         return $this->hasMany(BankTask::class);

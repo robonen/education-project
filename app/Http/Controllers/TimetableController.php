@@ -21,14 +21,30 @@ class TimetableController extends Controller
         ]);
         $builder = Timetable::all()->sortBy('timeStart');
         $timetables = (new TimetableFilter($builder, $request))->apply()->values();
-        $arrayTimetables = [];
+        $filterTimetables = collect([]);
+        foreach ($timetables as $timetable) {
+            $subject = $timetable->subject->name;
+            $teacher = $timetable->teacher->only('name', 'surname', 'patronymic');
+            $class = $timetable->schoolClass->only('number', 'letter');
+            $filterTimetables->push([
+                'id' => $timetable['id'],
+                'date' => $timetable['date'],
+                'time_start' => $timetable['time_start'],
+                'time_end' => $timetable['time_end'],
+                'classroom' => $timetable['classroom'],
+                'subject' => $subject,
+                'teacher' => $teacher,
+                'class' => $class,
+            ]);
+        }
+        $dateTimetables = [];
         for ($i = 0; $i < 6; $i++) {
             $date = Carbon::parse($request->input('date'))
                 ->addDays($i)
                 ->format('Y-m-d');
-            array_push($arrayTimetables, [$date => $timetables->where('date', $date)->values()]);
+            array_push($dateTimetables, [$date => $filterTimetables->where('date', $date)->values()]);
         }
-        return response()->json($arrayTimetables, 200);
+        return response()->json($dateTimetables, 200);
     }
 
      //Получение урока
