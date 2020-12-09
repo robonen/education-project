@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BankTask;
 
 use App\Models\BankTask;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Models\BankTaskFile;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 
 class BankTaskFileController extends Controller

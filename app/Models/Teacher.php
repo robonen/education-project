@@ -24,4 +24,7 @@ class Teacher extends Model
         return $this->hasMany(Timetable::class);
     }
 
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
 }
