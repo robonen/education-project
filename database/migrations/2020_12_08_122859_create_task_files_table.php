@@ -18,7 +18,6 @@ class CreateTaskFilesTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('extension');
-            $table->boolean('add_by_teacher')->default('0');
             $table->string('url', 400);
             $table->timestamps();
             $table->unsignedInteger('task_id');

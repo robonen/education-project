@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
+use App\Models\AnswerToTask;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Http\JsonResponse;
@@ -64,5 +65,9 @@ class StudentController extends Controller
         $new_class->count_students++;
         $new_class->save();
         return response()->json(collect($student)->except('school_class'), 200);
+    }
+
+    public function getAnswers(Student $student) {
+        return AnswerToTask::where('student_id', '=', $student->id)->get();
     }
 }

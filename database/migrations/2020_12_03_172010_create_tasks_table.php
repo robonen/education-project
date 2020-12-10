@@ -15,15 +15,13 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
-            $table->text('description')->nullable();
-            $table->dateTime('deadline')->nullable();
+            $table->unsignedInteger('banktask_id');
+            $table->timestamp('deadline')->nullable();
             $table->unsignedInteger('teacher_id')->nullable();
             $table->unsignedInteger('class_id')->nullable();
             $table->timestamps();
-            $table->integer('subject_id');
 
-            $table->foreign('subject_id')->references('id')->on('subjects')
+            $table->foreign('banktask_id')->references('id')->on('bank_tasks')
                 ->onDelete('set null');
 
 //            $table->foreign('class_id')->references('id')->on('school_classes')

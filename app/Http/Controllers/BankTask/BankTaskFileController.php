@@ -79,7 +79,6 @@ class BankTaskFileController extends Controller
     }
 
     public function delete(BankTaskFile $file) {
-        echo $file;
         if (Storage::disk('local')->exists('/public/banktask/' . $file->banktask_id . '/' . $file->type . '/' . $file->name )) {
             if (Storage::disk('local')->delete('/public/banktask/' . $file->banktask_id . '/' . $file->type . '/' . $file->name)) {
                 return response()->json($file->delete());

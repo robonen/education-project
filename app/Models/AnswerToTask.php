@@ -11,4 +11,5 @@ class AnswerToTask extends Model
 
     protected $table = 'answers_to_task';
     protected $fillable = ['description', 'student_id', 'task_id', 'class_id', 'checked', 'mark', 'comment_by_teacher'];
+
 }

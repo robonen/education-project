@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'deadline', 'teacher_id', 'subject_id'];
+    protected $fillable = ['banktask_id', 'deadline', 'teacher_id', 'class_id'];
 
     public function banktask() {
-        return $this->hasMany(BankTask::class, 'class_task');
+        return $this->belongsTo(BankTask::class);
     }
 
     public function teacher(){

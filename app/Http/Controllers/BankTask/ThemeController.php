@@ -21,7 +21,7 @@ class ThemeController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(Theme::all()->sortBy($request->input('sort_by')), 200);
+        return response()->json(Theme::all(), 200);
     }
 
     /**

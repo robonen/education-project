@@ -15,6 +15,7 @@ Route::apiResource('teachers', 'Users\TeacherController');
 Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses');
 
 Route::apiResource('students', 'Users\StudentController');
+Route::get('/student/{student}/answers', 'Users\StudentController@getAnswers');
 
 Route::apiResource('parents', 'Users\ParenttController');
 
@@ -37,9 +38,9 @@ Route::group(['prefix' => 'banktask'], function () {
     Route::delete('{banktask}', 'BankTask\BankTaskController@delete'); //удаление задания
     Route::post('{banktask}/addfile', 'BankTask\BankTaskFileController@store');
     Route::get('{banktask}/files', 'BankTask\BankTaskFileController@showFiles');
-    Route::get('/file/{file}', 'BankTask\BankTaskFileController@download');
-    Route::delete('/file/{file}', 'BankTask\BankTaskFileController@delete');
-    Route::put('/file/{file}', 'BankTask\BankTaskFileController@update');
+    Route::get('/file/{file}/download', 'BankTask\BankTaskFileController@download');
+    Route::delete('/file/{file}/delete', 'BankTask\BankTaskFileController@delete');
+    Route::put('/file/{file}/update', 'BankTask\BankTaskFileController@update');
 });
 
 
@@ -50,12 +51,11 @@ Route::group(['prefix' => 'task'], function () {
     Route::get('/{task}', 'TaskController@show'); //Показать задание
     Route::put('/{task}', 'TaskController@update'); // Обновить задание
     Route::delete('/{task}', 'TaskController@delete'); // Удалить задание
-    Route::post('/{task}/addbanktask', 'TaskController@addbanktask'); // Добавить к заданию задачи из банка
     Route::put('/answer/check/{answer}', 'TaskController@checkAnswer'); // Проверить ответ ученика
     Route::post('/{task}/addanswer', 'AnswerToTaskController@store'); // Добавить ответ(для ученика)
     Route::get('/{task}/student/{student}', 'AnswerToTaskController@show'); // Показать ответ ученика
-    Route::delete('/answer/{answer}', 'AnswerToTask@delete'); // Удалить ответ
-    Route::put('/answer/{answer}', 'AnswerToTask@update'); // Изменить ответ
+    Route::delete('/answer/{answer}', 'AnswerToTaskController@delete'); // Удалить ответ
+    Route::put('/answer/{answer}', 'AnswerToTaskController@update'); // Изменить ответ
     Route::post('/{task}/addfile', 'TaskFileController@store'); // Добавить файл
     Route::get('/{task}/files', 'TaskFileController@showFiles'); // Посмотреть файлы у таска(только файлы
                                                                            // которые добавил учитель).

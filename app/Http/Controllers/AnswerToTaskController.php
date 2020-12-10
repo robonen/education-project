@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnswerToTask;
+use App\Models\BankTask;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
@@ -13,28 +14,41 @@ class AnswerToTaskController extends Controller
 {
     public function store(Task $task, Request $request) {
         $input = $request->all();
-        $input->class_id = $task->class_id;  // Не работает
-        $input->student_id = Student::where('user_id', '=', Auth::id())->get(['id']);       // Не работает
 
-        $answer = AnswerToTask::create($input);
+
+        $answer = AnswerToTask::create($input+ ['task_id' =>  $task->id,
+                                           'student_id' => 1]);
         return response()->json($answer, 201);
 
     }
 
     public function show(Task $task, Student $student) {
+        $name = BankTask::find($task->banktask_id)->name;
+
         $answer = AnswerToTask::where([
             ['student_id', '=', $student->id],
             ['task_id', '=', $task->id]
         ])->get();
-        $file = TaskFile::where([
-            ['student_id', '=', $student->id],
+        $answer->name = $name;
+        $answer->deadline = $task->deadline;
+        $studentFile = TaskFile::where([
+            ['user_id', '=', '2'], // Auth::id()
             ['task_id', '=', $task->id]
                                 ])
+            ->get(['id','name', 'type', 'url']);
+        $teacherFile = TaskFile::where([
+            ['user_id', '=', '2'], // Auth::id()
+            ['task_id', '=', $task->id],
+            ['review', '=', 1]
+                                       ])
             ->get(['id','name', 'type', 'url']);
 
         return response()->json([
             'answer' => $answer,
-            'files' =>  $file
+            'files' =>  [
+                'student' => $studentFile,
+                'teacher' => $teacherFile
+            ]
         ],200);
     }
 

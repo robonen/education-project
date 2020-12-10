@@ -18,9 +18,10 @@ class CreateAnswersToTaskTable extends Migration
             $table->text('description')->nullable();
             $table->smallInteger('mark')->nullable();
             $table->text('comment_by_teacher')->nullable();
-            $table->boolean('checked')->default('false');
+            $table->boolean('checked')->default('0');
             $table->unsignedInteger('task_id');
             $table->unsignedInteger('student_id');
+            $table->boolean('review')->default('0');
             $table->timestamps();
 
             $table->foreign('task_id')->references('id')->on('tasks')

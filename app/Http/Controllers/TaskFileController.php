@@ -18,7 +18,7 @@ class TaskFileController extends Controller
     {
 
         $taskId = $task->id;
-        $studentId = Student::where('user_id', '=', Auth::id())->get();
+        $studentId = 1;
         $max_size = (int)ini_get('upload_max_filesize') * 1000;
         $all_ext = implode(',', $this->allExtensions());
         $this->validate($request, [
@@ -30,41 +30,31 @@ class TaskFileController extends Controller
         $ext = $file->getClientOriginalExtension();
         $type = $this->getType($ext);
 
-        if(auth()->user()->role_id == 2) {
-            if (Storage::putFileAs('public/task/' . $taskId . '/' . $type . '/', $file, $request->name)) {
-                TaskFile::create(
-                    [
-                        'name' => $request->name,
-                        'type' => $type,
-                        'extension' => $ext,
-                        'task_id' => $taskId,
-                        'url' => '/storage/task' . '/' . $taskId . '/' . $type . '/' . $request->name,
-                        'user_id' => Auth::id(),
-                        'add_by_teacher' => 1,
-                        $file,
-                        $request->name . $ext
-                    ]
-                );
-                return response()->json(true, 201);
-            }
-        } elseif (auth()->user()->role_id == 3) {
-            if (Storage::putFileAs('public/task/' . $taskId . '/student/'. Auth::id() . $type . '/', $file, $request->name)) {
-                TaskFile::create(
-                    [
-                        'name' => $request->name,
-                        'type' => $type,
-                        'extension' => $ext,
-                        'task_id' => $taskId,
-                        'url' => '/storage/task' . '/' . $taskId . '/student/'. Auth::id() . $type . '/' . $request->name,
-                        'user_id' => Auth::id(),
-                        $file,
-                        $request->name . $ext
-                    ]
-                );
-                return response()->json(true, 201);
-            }
-
+        if ($request->has('by_teacher') && $request->by_teacher == 1) { // auth()->user()->role_id == 2
+            $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/' .  '/review/' . $type . '/' . $request->name;
+            $review = 1;
+        } elseif (true) {
+            $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/' . $type . '/' . $request->name;
+            $review = 0;
         }
+
+
+            if (Storage::putFileAs('public/task/' . $taskId . '/student/' . $studentId . '/' . $type . '/', $file, $request->name)) {
+                TaskFile::create(
+                    [
+                        'name' => $request->name,
+                        'type' => $type,
+                        'extension' => $ext,
+                        'task_id' => $taskId,
+                        'url' => $path,
+                        'user_id' => '2',
+                        'review' => $review,
+                        $file,
+                        $request->name . $ext
+                    ]
+                );
+                return response()->json(true, 201);
+            }
         return response()->json(false, 422);
     }
 
@@ -78,10 +68,10 @@ class TaskFileController extends Controller
 
     }
 
-    public function download(TaskFile $file)
-    {
-        return Storage::download('/public/task/' . $file->task_id . '/' . $file->type . '/' . $file->name);
-    }
+//    public function download(TaskFile $file)
+//    {
+//        return Storage::download('/public/task/' . $file->task_id . '/' . $file->type . '/' . $file->name);
+//    }
 
 //    public function update(TaskFile $file, Request $request)  Бесполезная функция
 //    {
@@ -104,8 +94,9 @@ class TaskFileController extends Controller
 //    }
 
     public function delete(TaskFile $file) {
-        if (Storage::disk('local')->exists('/public/task/' . $file->task_id . '/' . $file->type . '/' . $file->name )) {
-            if (Storage::disk('local')->delete('/public/task/' . $file->task_id . '/' . $file->type . '/' . $file->name)) {
+        $studentId = Student::where('user_id', '=', $file->user_id)->get()->id;
+        if (Storage::disk('local')->exists('/public/task/' . $file->task_id . '/student/' . $studentId . $file->type . '/' . $file->name)) {
+            if (Storage::disk('local')->delete('/public/task/' . $file->task_id . '/student/' . $studentId . $file->type . '/' . $file->name)) {
                 return response()->json($file->delete());
             }
         }

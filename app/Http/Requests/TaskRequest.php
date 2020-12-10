@@ -19,7 +19,8 @@ class TaskRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'banktask_id' => 'required|exists:bank_tasks,id',
+            'deadline' => 'required'
 
         ];
     }

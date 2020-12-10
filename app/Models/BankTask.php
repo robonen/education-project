@@ -28,4 +28,9 @@ class BankTask extends Model
         return $this->belongsTo(Theme::class);
     }
 
+    public function tasks() {
+        return $this->hasMany(Task::class);
+    }
+
+
 }
