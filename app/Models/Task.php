@@ -22,4 +22,12 @@ class Task extends Model
         $this->belongsTo(SchoolClass::class);
     }
 
+    public function tasks() {
+        $this->hasMany(Task::class);
+    }
+
+    public function answers() {
+        $this->hasMany(AnswerToTask::class);
+    }
+
 }

@@ -31,15 +31,17 @@ class TaskFileController extends Controller
         $type = $this->getType($ext);
 
         if ($request->has('by_teacher') && $request->by_teacher == 1) { // auth()->user()->role_id == 2
-            $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/' .  '/review/' . $type . '/' . $request->name;
+            $pathToFile = 'public/task/' . $taskId . '/student/' . $studentId . '/review/' . $type . '/';
+            $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/review/' . $type . '/' . $request->name;
             $review = 1;
         } elseif (true) {
+            $pathToFile = 'public/task/' . $taskId . '/student/' . $studentId . '/' . $type . '/';
             $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/' . $type . '/' . $request->name;
             $review = 0;
         }
 
 
-            if (Storage::putFileAs('public/task/' . $taskId . '/student/' . $studentId . '/' . $type . '/', $file, $request->name)) {
+            if (Storage::putFileAs($pathToFile, $file, $request->name)) {
                 TaskFile::create(
                     [
                         'name' => $request->name,
@@ -53,7 +55,7 @@ class TaskFileController extends Controller
                         $request->name . $ext
                     ]
                 );
-                return response()->json(true, 201);
+                return response()->json($request->by_teacher, 201);
             }
         return response()->json(false, 422);
     }

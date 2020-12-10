@@ -9,6 +9,6 @@ class TaskFile extends Model
 {
     use HasFactory;
     protected $table = 'task_files';
-    protected $fillable = ['name', 'type', 'extension', 'url', 'task_id', 'user_id'];
+    protected $fillable = ['name', 'type', 'extension', 'url', 'task_id', 'user_id', 'review'];
     protected $hidden = ['review'];
 }

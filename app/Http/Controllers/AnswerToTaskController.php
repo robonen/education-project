@@ -33,7 +33,8 @@ class AnswerToTaskController extends Controller
         $answer->deadline = $task->deadline;
         $studentFile = TaskFile::where([
             ['user_id', '=', '2'], // Auth::id()
-            ['task_id', '=', $task->id]
+            ['task_id', '=', $task->id],
+            ['review', '=', 0]
                                 ])
             ->get(['id','name', 'type', 'url']);
         $teacherFile = TaskFile::where([

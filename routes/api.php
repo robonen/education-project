@@ -13,6 +13,7 @@ Route::apiResource('headteachers', 'Users\HeadTeacherController');
 
 Route::apiResource('teachers', 'Users\TeacherController');
 Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses');
+Route::get('teacher/{teacher}/classes/{class}/uncheked-task', 'Users\TeacherController@getUncheckedTask');
 
 Route::apiResource('students', 'Users\StudentController');
 Route::get('/student/{student}/answers', 'Users\StudentController@getAnswers');
