@@ -19,15 +19,15 @@ class Task extends Model
     }
 
     public function class() {
-        $this->belongsTo(SchoolClass::class);
+       return  $this->belongsTo(SchoolClass::class);
     }
 
     public function tasks() {
-        $this->hasMany(Task::class);
+       return $this->hasMany(Task::class);
     }
 
     public function answers() {
-        $this->hasMany(AnswerToTask::class);
+       return $this->hasMany(AnswerToTask::class);
     }
 
 }

@@ -49,7 +49,7 @@ class TaskFileController extends Controller
                         'extension' => $ext,
                         'task_id' => $taskId,
                         'url' => $path,
-                        'user_id' => '2',
+                        'user_id' => 2,
                         'review' => $review,
                         $file,
                         $request->name . $ext

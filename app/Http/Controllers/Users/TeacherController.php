@@ -59,21 +59,14 @@ class TeacherController extends Controller
         return response()->json(collect($classes)->unique(), 200);
     }
 
-//    public function getUncheckedTask(Teacher $teacher, SchoolClass $class) {
-//        $studentsId = Student::where('class_id', '=', $class->id)->get(['id']);
-//        $tasksId    = Task::where('teacher_id', '=', $teacher->id)->get(['id']);
-//        $answers = [];
-//        $test = new Task();
-//        foreach ($studentsId as $studentId) {
-//            foreach ($tasksId as $taskId) {
-//
-//                AnswerToTask::where([
-//                    ['task_id', '=', $taskId->id],
-//                    ['student_id', '=', $studentId->id],
-//                    ['checked', '=', 0]
-//                                    ])->get();
-//            }
-//        }
-//        return $answers;
-//    }
+    public function getUncheckedTask(Teacher $teacher, SchoolClass $class) {
+
+        $temp = [];
+        $tasks = $teacher->tasks->where('class_id', '=', $class->id);
+        foreach ($tasks as $task) {
+            $answers = Task::find($task->id)->answers->where('checked', '=', false);
+            array_push($temp, $answers);
+        }
+        return response()->json($temp, 200);
+    }
 }
