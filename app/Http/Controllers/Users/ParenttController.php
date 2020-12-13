@@ -44,4 +44,12 @@ class ParenttController extends Controller
         $parent->update($request->all());
         return response()->json($parent, 200);
     }
+
+    public function destroy(Parentt $parent)
+    {
+        $user = $parent->user;
+        $user->delete();
+        return response()->json(null, 204);
+    }
+
 }

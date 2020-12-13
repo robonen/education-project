@@ -45,4 +45,11 @@ class HeadTeacherController extends Controller
         return response()->json($headteacher, 200);
     }
 
+    public function destroy(HeadTeacher $headteacher)
+    {
+        $user = $headteacher->user;
+        $user->delete();
+        return response()->json(null, 204);
+    }
+
 }

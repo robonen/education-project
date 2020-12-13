@@ -69,22 +69,22 @@ class TimetableController extends Controller
     public function store(TimetableRequest $request)
     {
         try {
-            Timetable::create($request->all());
+            $timetable = Timetable::create($request->all());
         }catch (QueryException $e) {
             return response()->json(['message' => 'Not found class, teacher or subject'], 400);
         }
-        return response()->json(['message' => 'Timetable was created'], 201);
+        return response()->json($timetable, 201);
     }
 
     //обновление урока
-    public function update(TimetableRequest $timetable, Request $request)
+    public function update(Timetable $timetable, TimetableRequest $request)
     {
         try {
             $timetable->update($request->all());
         }catch (QueryException $e) {
             return response()->json(['message' => 'Not found class, teacher or subject'], 400);
         }
-        return response()->json(['message' => 'Timetable was updated'], 200);
+        return response()->json($timetable, 200);
     }
 
     //удаление урока

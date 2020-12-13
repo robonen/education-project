@@ -16,7 +16,7 @@ class CreateTimetablesTable extends Migration
         Schema::create('timetables', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('class_id');
-            $table->unsignedInteger('teacher_id');
+            $table->unsignedInteger('teacher_id')->nullable();
             $table->unsignedInteger('subject_id');
             $table->date('date');
             $table->time('time_start');
