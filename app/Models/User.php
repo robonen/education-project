@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -58,11 +57,11 @@ class User extends Authenticatable
         return $this->hasOne(HeadTeacher::class);
     }
 
-    public function makeToken(bool $remember)
-    {
-        $token = $this->createToken(config('app.name'));
-        $token->token->expires_at = $remember ? Carbon::now()->addMonth() : Carbon::now()->addDay();
-        $token->token->save();
-        return $token;
-    }
+//    public function makeToken(bool $remember)
+//    {
+//        $token = $this->createToken(config('app.name'));
+//        $token->token->expires_at = $remember ? Carbon::now()->addMonth() : Carbon::now()->addDay();
+//        $token->token->save();
+//        return $token;
+//    }
 }

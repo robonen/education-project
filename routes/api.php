@@ -23,7 +23,10 @@ Route::apiResource('subjects', 'SubjectController');
 Route::apiResource('classes', 'SchoolClassController');
 Route::post('classes/{class}/teacher', 'SchoolClassController@addTeacher');
 Route::get('classes/{class}/students', 'SchoolClassController@getStudents'); //все ученики класса
+Route::get('classes/{class}/journal', 'SchoolClassController@getStudentsJournal'); //все ученики класса с оценками
 Route::get('classes/{class}/subjects', 'SchoolClassController@getSubjects'); //все предметы класса
+
+Route::apiResource('journal', 'JournalController');
 
 Route::apiResource('themes', 'ThemeController');
 

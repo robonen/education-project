@@ -18,7 +18,7 @@ class RegisterController extends Controller
     {
         $role = Role::where('name', $request->get('role'));
 
-        if ($role->isEmpty())
+        if ($role->get()->isEmpty())
             return response()->json('Role not found', 404);
 
         $user = User::create(array_merge(
