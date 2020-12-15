@@ -50,5 +50,5 @@ Route::group(['prefix' => 'news'], function () {
    Route::put('/{news}', 'News\NewsController@edit');
    Route::delete('/{news}', 'News\NewsController@delete');
    Route::post('/{news}/addphoto', 'News\NewsFileController@store');
-   Route::delete('/{file}', 'News\NewsFileController@delete');
+   Route::delete('/photo/{file}', 'News\NewsFileController@delete');
 });

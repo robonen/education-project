@@ -22,7 +22,7 @@ class CreateNewsFilesTable extends Migration
             $table->unsignedInteger('news_id');
             $table->foreign('news_id')
                 ->references('id')->on('news')
-                ->onDelete('no action');
+                ->onDelete('cascade');
 
         });
     }

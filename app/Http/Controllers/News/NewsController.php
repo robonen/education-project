@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\News;
 use App\Http\Controllers\Controller;
+use App\Models\NewsFile;
 use Illuminate\Http\Request;
 use App\Models\News;
 
@@ -34,7 +35,10 @@ class NewsController extends Controller
 
     public function show(News $news) {
 
-        return response()->json($news, 200);
+        return response()->json([
+            $news,
+            'photo_id' => NewsFile::where('news_id', '=', $news->id)->get(['id'])
+                                    ], 200);
     }
 
     public function edit(News $news, Request $request) {

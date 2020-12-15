@@ -9,4 +9,5 @@ class NewsFile extends Model
 {
     use HasFactory;
     protected $table = 'news_files';
+    protected $fillable = ['name', 'type', 'extension', 'url', 'news_id'];
 }

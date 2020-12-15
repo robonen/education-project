@@ -40,6 +40,7 @@ class NewsFileController extends Controller
                                       $request->name . $ext
                                  ]);
             $news->photo_uri = '/storage/news' . '/' . $newsId . '/' . $type . '/' . $request->name;
+            $news->save();
             return true;
         }
         return false;
@@ -51,7 +52,7 @@ class NewsFileController extends Controller
 
     public function delete(NewsFile $file) {
 
-        if (Storage::disk('local')->exists('/public/news/' . $file->news_id . '/' . $file->type . '/' . $file->name )) {
+        if (Storage::disk('local')->exists('/public/news/' . $file->news_id . '/' . $file->type . '/' . $file->name)) {
             if (Storage::disk('local')->delete('/public/news/' . $file->news_id . '/' . $file->type . '/' . $file->name)) {
                 return response()->json($file->delete(), 204);
             }

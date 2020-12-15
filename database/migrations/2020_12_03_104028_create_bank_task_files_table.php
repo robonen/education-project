@@ -13,7 +13,7 @@ class CreateBankTaskFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank_tasks_files', function (Blueprint $table) {
+        Schema::create('bank_task_files', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('type');
@@ -23,7 +23,7 @@ class CreateBankTaskFilesTable extends Migration
             $table->unsignedInteger('banktask_id');
             $table->foreign('banktask_id')
                 ->references('id')->on('bank_tasks')
-                ->onDelete('no action');
+                ->onDelete('cascade');
 
         });
     }
@@ -35,6 +35,6 @@ class CreateBankTaskFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_tasks_files');
+        Schema::dropIfExists('bank_task_files');
     }
 }
