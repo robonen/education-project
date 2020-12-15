@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -41,7 +42,7 @@ class User extends Authenticatable
     {
         foreach ($roles as $role)
         {
-            if ($this->role->contains('name', $role))
+            if ($this->role->name == $role)
                 return true;
         }
 
@@ -58,11 +59,24 @@ class User extends Authenticatable
         return $this->hasOne(HeadTeacher::class);
     }
 
-    public function makeToken(bool $remember)
+    public function teacher()
     {
-        $token = $this->createToken(config('app.name'));
-        $token->token->expires_at = $remember ? Carbon::now()->addMonth() : Carbon::now()->addDay();
-        $token->token->save();
-        return $token;
+        return $this->hasOne(Teacher::class);
     }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Parentt::class);
+    }
+
+    public function chatLinks()
+    {
+        return $this->hasMany(ChatLink::class, 'creator');
+    }
+
 }

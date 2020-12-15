@@ -16,7 +16,8 @@ class RegisterRequest extends UserRequest
     {
         return [
             'role' => 'required|string',
-            'class_id' => 'required|integer|gt:0',
+            'class_id' => 'integer|gt:0',
+            'login' => 'required|unique:users'
         ];
     }
 }

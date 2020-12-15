@@ -26,4 +26,10 @@ class SchoolClass extends Model
             ->withPivot('hours_per_week', 'hours_per_year');
     }
 
+    public function chatLinks()
+    {
+        return $this->hasMany(ChatLink::class, 'class_id');
+    }
+
+
 }

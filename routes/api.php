@@ -6,12 +6,14 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('register', 'Auth\RegisterController');
     Route::post('login', 'Auth\LoginController');
-    Route::post('logout', 'Auth\LogoutController');
+    Route::post('logout', 'Auth\LogoutController')->middleware('auth:api');
 });
+
+Route::apiResource('chat/links', 'ChatLinkController')->except(['show'])->middleware('auth:api'); // ссылки чата
 
 Route::apiResource('headteachers', 'Users\HeadTeacherController');
 
-Route::apiResource('teachers', 'Users\TeacherController');
+Route::apiResource('teachers', 'Users\TeacherController');//->middleware(['auth:api','role:headteacher|teacher']);
 Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses'); //получить классы у которых ведет учитель
 
 Route::apiResource('students', 'Users\StudentController');

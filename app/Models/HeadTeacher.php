@@ -11,6 +11,7 @@ class HeadTeacher extends Model
 
     protected $guarded = [
         'user_id',
+        'updated_at',
     ];
 
     public function user()
