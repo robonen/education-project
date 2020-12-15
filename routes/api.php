@@ -42,3 +42,13 @@ Route::group(['prefix' => 'banktask'], function () {
 Route::get('/file/{file}/download', 'BankTaskFileController@download');
 Route::delete('/file/{file}/delete', 'BankTaskFileController@delete');
 Route::put('/file/{file}/update', 'BankTaskFileController@update');
+
+Route::group(['prefix' => 'news'], function () {
+   Route::post('', 'News\NewsController@store');
+   Route::get('', 'News\NewsController@index');
+   Route::get('/{news}', 'News\NewsController@show');
+   Route::put('/{news}', 'News\NewsController@edit');
+   Route::delete('/{news}', 'News\NewsController@delete');
+   Route::post('/{news}/addphoto', 'News\NewsFileController@store');
+   Route::delete('/{file}', 'News\NewsFileController@delete');
+});
