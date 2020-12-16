@@ -45,6 +45,24 @@ class TeacherController extends Controller
         $teacher->update($request->all());
         return response()->json($teacher, 200);
     }
+    //это нужно перенести в update
+    public function store(Request $request)
+    {
+        $path = '/var/www/EducationProject/storage/app/public/users/wd3TZnUTGxZsmIhTpXI4r9NTJIewP8E5MUfdC7u8.png';
+        return Response::download($path);
+        /*$teacher = Teacher::find(1);
+        $path = $request->file('photo')->store('users', 'public');
+        $teacher->update($request->all());
+        $teacher->photo = $path;
+        return response()->json($teacher, 200);*/
+    }
+
+    public function destroy(Teacher $teacher)
+    {
+        $user = $teacher->user;
+        $user->delete();
+        return response()->json(null, 204);
+    }
 
     public function getClasses(Teacher $teacher)
     {

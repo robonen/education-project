@@ -19,6 +19,7 @@ class TimetableRequest extends ApiFormRequest
             'date' => 'required|date_format:Y/m/d|',
             'time_start' => 'required|date_format:H:i',
             'time_end' => 'required|date_format:H:i',
+            'classroom' => 'required',
         ];
     }
 }

@@ -28,4 +28,9 @@ class Student extends Model
         return $this->hasMany(Journal::class, 'student_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
