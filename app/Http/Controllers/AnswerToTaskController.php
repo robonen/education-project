@@ -16,8 +16,9 @@ class AnswerToTaskController extends Controller
         $input = $request->all();
 
 
-        $answer = AnswerToTask::create($input+ ['task_id' =>  $task->id,
-                                           'student_id' => 1]);
+        $answer = AnswerToTask::create($input+
+                                       ['task_id' =>  $task->id,
+                                       'student_id' => auth()->user()->id]);
         return response()->json($answer, 201);
 
     }
@@ -32,13 +33,13 @@ class AnswerToTaskController extends Controller
         $answer->name = $name;
         $answer->deadline = $task->deadline;
         $studentFile = TaskFile::where([
-            ['user_id', '=', '2'], // Auth::id()
+            ['user_id', '=', $student->user_id],
             ['task_id', '=', $task->id],
             ['review', '=', 0]
                                 ])
             ->get(['id','name', 'type', 'url']);
         $teacherFile = TaskFile::where([
-            ['user_id', '=', '2'], // Auth::id()
+            ['user_id', '=', $student->user_id],
             ['task_id', '=', $task->id],
             ['review', '=', 1]
                                        ])

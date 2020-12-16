@@ -17,8 +17,9 @@ class TaskFileController extends Controller
     public function store(Task $task, Request $request)
     {
 
-        $taskId = $task->id;
-        $studentId = 1;
+        $taskId = $task->id;                        // НАДО ПОДУМАТЬ. СЕЙЧАС РАБОТАЕТ НЕКОРРЕКТНО. НУЖНО СДЕЛАТЬ ТАК ЧТО СИСТЕМА АВТОМАТИЧЕСКИ ОПРЕДЕЛЯЛА К КАКОМУ УЧЕНИКУ ЗАЛИВАТЬ ФАЙЛ УЧИТЕЛЮ
+        $studentId = auth()->user()->id;
+        $teacherId = auth()->user()->id;
         $max_size = (int)ini_get('upload_max_filesize') * 1000;
         $all_ext = implode(',', $this->allExtensions());
         $this->validate($request, [
@@ -30,7 +31,7 @@ class TaskFileController extends Controller
         $ext = $file->getClientOriginalExtension();
         $type = $this->getType($ext);
 
-        if ($request->has('by_teacher') && $request->by_teacher == 1) { // auth()->user()->role_id == 2
+        if ($request->has('by_teacher') && (auth()->user()->role_id == 2)) {
             $pathToFile = 'public/task/' . $taskId . '/student/' . $studentId . '/review/' . $type . '/';
             $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/review/' . $type . '/' . $request->name;
             $review = 1;
@@ -49,7 +50,7 @@ class TaskFileController extends Controller
                         'extension' => $ext,
                         'task_id' => $taskId,
                         'url' => $path,
-                        'user_id' => 2,
+                        'user_id' => $studentId,
                         'review' => $review,
                         $file,
                         $request->name . $ext
