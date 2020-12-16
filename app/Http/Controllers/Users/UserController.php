@@ -29,7 +29,7 @@ class UserController extends Controller
                 $user = auth()->user()->parent;
                 break;
         }
-        return response()->json($user);
+        return response()->json($user, 200);
     }
 
 }
