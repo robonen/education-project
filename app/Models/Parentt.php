@@ -12,8 +12,7 @@ class Parentt extends Model
 
     protected $table = 'parents';
 
-    protected $fillable = [
-        'user_id',
+    protected $guarded = [
         'updated_at',
     ];
 

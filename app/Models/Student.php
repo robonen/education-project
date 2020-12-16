@@ -11,10 +11,6 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-    ];
-
     protected $guarded = [
         'updated_at',
     ];
