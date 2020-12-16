@@ -18,7 +18,7 @@ Route::apiResource('headteachers', 'Users\HeadTeacherController');
 Route::apiResource('teachers', 'Users\TeacherController');//->middleware(['auth:api','role:headteacher|teacher']);
 Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses'); //получить классы у которых ведет учитель
 Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses');
-Route::get('teacher/{teacher}/classes/{class}/uncheked-task', 'Users\TeacherController@getUncheckedTask');
+Route::get('teacher/{teacher}/classes/{class}/unchecked-task', 'Users\TeacherController@getUncheckedTask');
 
 Route::apiResource('students', 'Users\StudentController');
 Route::get('/student/{student}/answers', 'Users\StudentController@getAnswers');
@@ -32,6 +32,7 @@ Route::post('classes/{class}/teacher', 'SchoolClassController@addTeacher');
 Route::get('classes/{class}/students', 'SchoolClassController@getStudents'); //все ученики класса
 Route::get('classes/{class}/journal', 'SchoolClassController@getStudentsJournal'); //все ученики класса с оценками
 Route::get('classes/{class}/subjects', 'SchoolClassController@getSubjects'); //все предметы класса
+
 
 Route::apiResource('journal', 'JournalController');
 
@@ -47,14 +48,12 @@ Route::group(['prefix' => 'banktask'], function () {
     Route::delete('{banktask}', 'BankTask\BankTaskController@delete'); //удаление задания
     Route::post('{banktask}/addfile', 'BankTask\BankTaskFileController@store');
     Route::get('{banktask}/files', 'BankTask\BankTaskFileController@showFiles');
-    Route::get('/file/{file}/download', 'BankTask\BankTaskFileController@download');
-    Route::delete('/file/{file}/delete', 'BankTask\BankTaskFileController@delete');
-    Route::put('/file/{file}/update', 'BankTask\BankTaskFileController@update');
+    Route::delete('banktask/file/{file}/delete', 'BankTask\BankTaskFileController@delete');
+    Route::put('banktask/file/{file}/update', 'BankTask\BankTaskFileController@update');
 });
 
-Route::get('/file/{file}/download', 'BankTaskFileController@download');
-Route::delete('/file/{file}/delete', 'BankTaskFileController@delete');
-Route::put('/file/{file}/update', 'BankTaskFileController@update');
+
+
 
 Route::group(['prefix' => 'news'], function () {
    Route::post('', 'News\NewsController@store');
@@ -83,3 +82,4 @@ Route::group(['prefix' => 'task'], function () {
     Route::get('/{task}/file/{file}', 'TaskFileController@download'); // Скачать файл
     Route::delete('/file/{file}', 'TaskFileController@delete'); // Удалить файл
 });
+

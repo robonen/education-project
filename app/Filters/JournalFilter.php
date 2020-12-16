@@ -23,11 +23,26 @@ class JournalFilter extends QueryFilter
         $this->builder = $this->builder->where('subject_id', $value);
     }
 
-    protected function date($value)
+    protected function start($value)
     {
-        $value = Carbon::createFromTimestamp($value/1000)->floorDays();
-        $this->builder = $this->builder->where('updated_at', $value);
+        $this->builder = $this->builder->where('updated_at', '>=', $this->transformDate($value));
     }
+
+    protected function end($value)
+    {
+        $this->builder = $this->builder->where('updated_at', '<=', $this->transformDate($value));
+    }
+
+    protected function transformDate($value)
+    {
+        return Carbon::createFromTimestamp($value/1000)->floorDays();;
+    }
+
+//    protected function date($value)
+//    {
+//        $value = Carbon::createFromTimestamp($value/1000)->floorDays();
+//        $this->builder = $this->builder->where('updated_at', $value);
+//    }
 
     protected function last($value)
     {
