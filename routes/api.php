@@ -9,6 +9,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('logout', 'Auth\LogoutController')->middleware('auth:api');
 });
 
+Route::get('users', 'Users\UserController@getUser')->middleware('auth:api');
+
 Route::apiResource('chat/links', 'ChatLinkController')->except(['show'])->middleware('auth:api'); // ссылки чата
 
 Route::apiResource('headteachers', 'Users\HeadTeacherController');

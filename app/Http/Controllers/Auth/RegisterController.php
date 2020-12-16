@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 
-use App\Models\HeadTeacher;
-use App\Models\Parentt;
 use App\Models\Role;
-use App\Models\Student;
-use App\Models\Teacher;
+use App\Models\SchoolClass;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 
 class RegisterController extends Controller
 {
@@ -40,7 +38,17 @@ class RegisterController extends Controller
                 break;
 
             case 'student':
-                $user->student()->create();
+                try {
+                    $user->student()->create(['class_id'=>$request->input('class_id')]);
+                    $class = SchoolClass::find($request->input('class_id'));
+                    if ($class) {
+                        $class->count_students++;;
+                        $class->save();
+                    }
+                } catch (QueryException $e) {
+                    $user->delete();
+                    return response()->json(['message'=>'Class not found'],404);
+                }
                 break;
 
             case 'parent':

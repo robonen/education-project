@@ -15,6 +15,10 @@ class Student extends Model
         'updated_at',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     public function schoolClass()
     {
         return $this->belongsTo(SchoolClass::class, 'class_id');

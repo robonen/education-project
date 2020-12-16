@@ -14,6 +14,10 @@ class HeadTeacher extends Model
         'updated_at',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

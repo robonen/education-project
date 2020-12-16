@@ -15,6 +15,10 @@ class Teacher extends Model
         'updated_at',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     public function schoolClass()
     {
         return $this->hasOne(SchoolClass::class, 'classroom_teacher');
