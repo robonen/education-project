@@ -14,6 +14,8 @@ class LoginRequest extends UserRequest
      */
     public function specific()
     {
-        return [];
+        return [
+            'remember_me' => 'integer'
+        ];
     }
 }

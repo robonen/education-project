@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Http\JsonResponse;
+use App\Models\AnswerToTask;
 
 class StudentController extends Controller
 {
@@ -32,6 +33,18 @@ class StudentController extends Controller
     }
 
     /**
+     * Создание ученика
+     *
+     * @param StudentRequest $request
+     * @return JsonResponse
+     */
+    /*public function store(StudentRequest $request)
+    {
+        $student = Student::creat($request->all());
+        return response()->json($student, 200);
+    }*/
+
+    /**
      * Обновление ученика
      *
      * @param StudentRequest $request
@@ -54,11 +67,17 @@ class StudentController extends Controller
         return response()->json(collect($student)->except('school_class'), 200);
     }
 
+
     public function destroy(Student $student)
     {
         $user = $student->user;
         $user->delete();
         return response()->json(null, 204);
+    }
+
+
+    public function getAnswers(Student $student) {
+        return AnswerToTask::where('student_id', '=', $student->id)->get();
     }
 
 }

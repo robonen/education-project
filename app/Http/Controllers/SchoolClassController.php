@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\JournalFilter;
 use App\Http\Requests\SchoolClassRequest;
 use App\Models\SchoolClass;
 use App\Models\Teacher;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -65,9 +67,24 @@ class SchoolClassController extends Controller
         $students = $class->students;
         $studentsOnlyFIO = [];
         foreach ($students as $student) {
-             array_push($studentsOnlyFIO, $student->only('id', 'name', 'surname', 'patronymic'));
+            array_push($studentsOnlyFIO, $student->only('id', 'name', 'surname', 'patronymic'));
         }
         return response()->json($studentsOnlyFIO, 200);
+    }
+
+    public function getStudentsJournal(SchoolClass $class, Request $request)
+    {
+        $students = $class->students;
+        $allStudents = [];
+
+        foreach ($students as $student)
+        {
+            $cpys = clone $student;
+            $cpys->scores = (new JournalFilter($student->scores, $request))->apply()->values();
+            $allStudents[] = $cpys;
+        }
+
+        return response()->json($allStudents, 200);
     }
 
     //получение всех предметов для класса

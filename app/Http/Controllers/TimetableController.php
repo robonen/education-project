@@ -45,6 +45,7 @@ class TimetableController extends Controller
                 'class' => $class,
             ]);
         }
+
         $dateTimetables = [];
         //if (!$filterTimetables->isEmpty()) {
             for ($i = 0; $i < 6; $i++) {
@@ -53,9 +54,8 @@ class TimetableController extends Controller
                     ->addDays($i)
                     ->format('Y-m-d');
                 array_push($dateTimetables, [$date => $filterTimetables->where('date', $date)->values()]);
-            }
-
-        //}
+        //    }
+        }
         return response()->json($dateTimetables, 200);
     }
 
