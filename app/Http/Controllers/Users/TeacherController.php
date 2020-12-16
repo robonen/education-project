@@ -83,11 +83,11 @@ class TeacherController extends Controller
             $subjects = $subjects->unique()->values();
 
             $classes->push([
-                               'id' => $class['id'],
-                               'number' => $class['number'],
-                               'letter' => $class['letter'],
-                               'subjects' => $subjects,
-                           ]);
+                'id' => $class['id'],
+                'number' => $class['number'],
+                'letter' => $class['letter'],
+                'subjects' => $subjects,
+            ]);
 
         }
 
