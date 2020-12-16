@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BankTask;
 
 use App\Http\Requests\BankTaskRequest;
 use App\Models\BankTask;
@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\BankTaskFile;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class BankTaskController extends Controller
 {
@@ -27,7 +28,7 @@ class BankTaskController extends Controller
         $tasks = $tasks->newQuery();
 
         if ($request->has('name')) {
-            $tasks->where('name', 'like', $request->input('name').'%');
+            $tasks->where('name', 'ilike', $request->input('name').'%');
         }
         if ($request->has('subject_id')) {
             $tasks->where('subject_id', $request->input('subject_id'));
@@ -37,7 +38,7 @@ class BankTaskController extends Controller
         }
 
         if ($request->has('author')) {
-            $tasks->where('author', 'like', $request->input('author').'%');
+            $tasks->where('author', 'ilike', $request->input('author').'%');
         }
 
         if ($request->has('count')) {

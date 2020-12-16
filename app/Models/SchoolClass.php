@@ -32,4 +32,8 @@ class SchoolClass extends Model
     }
 
 
+    public function tasks() {
+        return $this->hasMany(Task::class, 'class_id');
+    }
+
 }

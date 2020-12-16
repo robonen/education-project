@@ -2,24 +2,21 @@
 
 namespace App\Models;
 
+use App\Filters\QueryFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HeadTeacher extends Model
+class Journal extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'teacher_id',
+        'student_id',
+        'subject_id',
+        'score',
+        'comment',
         'updated_at',
     ];
-
-    protected $hidden = [
-        'user_id',
-    ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
