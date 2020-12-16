@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BankTask;
 
 use App\Models\BankTask;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Models\BankTaskFile;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 
 
 class BankTaskFileController extends Controller
@@ -78,7 +79,6 @@ class BankTaskFileController extends Controller
     }
 
     public function delete(BankTaskFile $file) {
-        echo $file;
         if (Storage::disk('local')->exists('/public/banktask/' . $file->banktask_id . '/' . $file->type . '/' . $file->name )) {
             if (Storage::disk('local')->delete('/public/banktask/' . $file->banktask_id . '/' . $file->type . '/' . $file->name)) {
                 return response()->json($file->delete());

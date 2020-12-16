@@ -25,4 +25,9 @@ class SchoolClass extends Model
         return $this->belongsToMany(Subject::class, 'academic_plans', 'class_id')
             ->withPivot('hours_per_week', 'hours_per_year');
     }
+
+    public function tasks() {
+        return $this->hasMany(Task::class, 'class_id');
+    }
+
 }
