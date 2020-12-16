@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BankTask;
 
 
 use App\Http\Requests\ThemeRequest;
@@ -9,6 +9,7 @@ use http\Env\Response;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ThemeController extends Controller
 {
@@ -20,7 +21,7 @@ class ThemeController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(Theme::all()->sortBy($request->input('sort_by')), 200);
+        return response()->json(Theme::all(), 200);
     }
 
     /**

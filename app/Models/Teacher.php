@@ -10,7 +10,7 @@ class Teacher extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
+    protected $fillable = [
         'user_id',
         'updated_at',
     ];
@@ -34,4 +34,7 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
 }

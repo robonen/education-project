@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subject;
+use App\Models\AnswerToTask;
+use App\Models\SchoolClass;
+use App\Models\Student;
+use App\Models\Task;
 use App\Models\Teacher;
-use App\Models\Timetable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Response;
+use App\Models\Subject;
 
 class TeacherController extends Controller
 {
@@ -91,5 +92,16 @@ class TeacherController extends Controller
         }
 
         return response()->json($classes->unique()->values(), 200);
+    }
+
+    public function getUncheckedTask(Teacher $teacher, SchoolClass $class) {
+
+        $temp = [];
+        $tasks = $teacher->tasks->where('class_id', '=', $class->id);
+        foreach ($tasks as $task) {
+            $answers = Task::find($task->id)->answers->where('checked', '=', false);
+            array_push($temp, $answers);
+        }
+        return response()->json($temp, 200);
     }
 }

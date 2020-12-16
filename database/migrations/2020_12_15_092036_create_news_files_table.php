@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBankTaskFilesTable extends Migration
+class CreateNewsFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateBankTaskFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank_task_files', function (Blueprint $table) {
+        Schema::create('news_files', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('type');
             $table->string('extension');
-            $table->string('url', 400);
             $table->timestamps();
-            $table->unsignedInteger('banktask_id');
-            $table->foreign('banktask_id')
-                ->references('id')->on('bank_tasks')
+            $table->unsignedInteger('news_id');
+            $table->foreign('news_id')
+                ->references('id')->on('news')
                 ->onDelete('cascade');
 
         });
@@ -35,6 +34,6 @@ class CreateBankTaskFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_task_files');
+        Schema::dropIfExists('news');
     }
 }
