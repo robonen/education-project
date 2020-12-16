@@ -34,7 +34,7 @@ class RegisterController extends Controller
                 break;
 
             case 'teacher':
-                $user->teacher()->create();
+                    $user->teacher()->create();
                 break;
 
             case 'student':
