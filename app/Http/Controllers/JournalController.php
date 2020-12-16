@@ -59,7 +59,7 @@ class JournalController extends Controller
         $data = array_merge(['updated_at' => $date], $request->all());
 
         $journal = Journal::create($data);
-        return response()->json(['id' => $journal->id], 200);
+        return response()->json($journal, 200);
     }
 
     /**
@@ -91,10 +91,14 @@ class JournalController extends Controller
      * @param Journal $journal
      * @return JsonResponse
      */
-    public function update(JournalRequest $request, Journal $journal)
+    public function update(Request  $request, int $journal)
     {
-        $journal->update($request->all());
-        return response()->json(['id' => $journal->id], 200);
+        $j = Journal::find($journal);
+        $j->score = $request->get('score');
+        $j->comment = $request->get('comment');
+        $j->timestamps = false;
+        $j->save();
+        return response()->json(['id' => $j->id], 200);
     }
 
     /**

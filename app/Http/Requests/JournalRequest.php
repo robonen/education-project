@@ -18,7 +18,7 @@ class JournalRequest extends ApiFormRequest
             'teacher_id' => 'required|integer',
             'subject_id' => 'required|integer',
             'score' => 'required|integer',
-            'comment' => 'string',
+            'comment' => 'string|nullable',
             'date' => 'integer',
         ];
     }
