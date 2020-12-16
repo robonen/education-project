@@ -22,7 +22,7 @@ class Role
         $roles = explode($this->delimetr, $roles);
 
         if (!auth()->user()->hasRole($roles)) {
-            return response()->json('',404);
+            return response()->json(null,404);
         }
         return $next($request);
     }

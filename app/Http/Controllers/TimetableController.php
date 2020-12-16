@@ -45,9 +45,8 @@ class TimetableController extends Controller
                 'class' => $class,
             ]);
         }
-
         $dateTimetables = [];
-       // if (!$filterTimetables->isEmpty()) {
+        //if (!$filterTimetables->isEmpty()) {
             for ($i = 0; $i < 6; $i++) {
                 $date = Carbon::parse($request->input('date'))
                     ->startOfWeek()
@@ -55,7 +54,8 @@ class TimetableController extends Controller
                     ->format('Y-m-d');
                 array_push($dateTimetables, [$date => $filterTimetables->where('date', $date)->values()]);
             }
-       // }
+
+        //}
         return response()->json($dateTimetables, 200);
     }
 

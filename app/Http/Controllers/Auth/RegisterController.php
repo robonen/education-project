@@ -5,21 +5,19 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 
-use App\Models\HeadTeacher;
-use App\Models\Parentt;
 use App\Models\Role;
-use App\Models\Student;
-use App\Models\Teacher;
+use App\Models\SchoolClass;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 
 class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request)
     {
-        $role = Role::where('name', $request->get('role'));
+        $role = Role::where('name', $request->get('role'))->get();
 
         if ($role->isEmpty())
-            return response()->json('Role not found', 404);
+            return response()->json(['message'=>'Role not found'], 404);
 
         $user = User::create(array_merge(
             $request->only('login', 'class_id'),
@@ -29,29 +27,35 @@ class RegisterController extends Controller
             ]
         ));
 
-        $user_id = [
-            'user_id' => $user->id,
-        ];
-
         switch($request->get('role'))
         {
             case 'headteacher':
-                HeadTeacher::create($user_id);
+                $user->headteacher()->create();
                 break;
 
             case 'teacher':
-                Teacher::create($user_id);
+                $user->teacher()->create();
                 break;
 
             case 'student':
-                Student::create($user_id);
+                try {
+                    $user->student()->create(['class_id'=>$request->input('class_id')]);
+                    $class = SchoolClass::find($request->input('class_id'));
+                    if ($class) {
+                        $class->count_students++;;
+                        $class->save();
+                    }
+                } catch (QueryException $e) {
+                    $user->delete();
+                    return response()->json(['message'=>'Class not found'],404);
+                }
                 break;
 
             case 'parent':
-                Parentt::create($user_id);
+                $user->parent()->create();
                 break;
         }
 
-        return response()->json('ok', 200);
+        return response()->json(null, 201);
     }
 }

@@ -4,12 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class UserRequest extends ApiFormRequest
+class ChatLinkRequest extends ApiFormRequest
 {
-    public function specific()
-    {
-        return [];
-    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -17,8 +13,10 @@ abstract class UserRequest extends ApiFormRequest
      */
     public function rules()
     {
-        return array_merge([
-            'password' => 'required|string|min:6',
-        ], $this->specific());
+        return [
+            'name' => 'required',
+            'link' => 'required',
+            'class_id' => 'required|integer|gt:0',
+        ];
     }
 }

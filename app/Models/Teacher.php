@@ -12,6 +12,11 @@ class Teacher extends Model
 
     protected $guarded = [
         'user_id',
+        'updated_at',
+    ];
+
+    protected $hidden = [
+        'user_id',
     ];
 
     public function schoolClass()

@@ -4,19 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
 
-class Student extends Model
+class ChatLink extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'user_id',
-        'updated_at',
-    ];
-
-    protected $hidden = [
-        'user_id',
+    protected $fillable = [
+        'name',
+        'link',
+        'class_id',
     ];
 
     public function schoolClass()
@@ -24,9 +20,10 @@ class Student extends Model
         return $this->belongsTo(SchoolClass::class, 'class_id');
     }
 
-    public function user()
+    public function creator()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class, 'creator');
     }
+
 
 }

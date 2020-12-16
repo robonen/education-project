@@ -9,8 +9,8 @@ class LogoutController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $request->user()->token()->revoke();
+        auth()->user()->token()->revoke();
 
-        return response()->json('ok', 200);
+        return response()->json(['message' => 'You are logged out'], 200);
     }
 }
