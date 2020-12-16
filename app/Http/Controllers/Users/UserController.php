@@ -4,12 +4,9 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Models\HeadTeacher;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 
-class UserController
+class UserController extends Controller
 {
 
     public function getUser()
