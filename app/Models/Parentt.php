@@ -10,6 +10,8 @@ class Parentt extends Model
 {
     use HasFactory;
 
+    protected $table = 'parents';
+
     protected $fillable = [
         'user_id',
         'updated_at',
