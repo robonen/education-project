@@ -160,6 +160,7 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
+        \Laravel\Passport\PassportServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
 

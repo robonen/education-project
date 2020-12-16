@@ -22,14 +22,14 @@ Route::apiResource('students', 'Users\StudentController');
 
 Route::apiResource('parents', 'Users\ParenttController');
 
-Route::apiResource('subjects', 'SubjectController');
+Route::apiResource('subjects', 'BankTask\SubjectController');
 
 Route::apiResource('classes', 'SchoolClassController');
 Route::post('classes/{class}/teacher', 'SchoolClassController@addTeacher');
 Route::get('classes/{class}/students', 'SchoolClassController@getStudents'); //все ученики класса
 Route::get('classes/{class}/subjects', 'SchoolClassController@getSubjects'); //все предметы класса
 
-Route::apiResource('themes', 'ThemeController');
+Route::apiResource('themes', 'BankTask\ThemeController');
 
 Route::apiResource('timetables', 'TimetableController');
 
