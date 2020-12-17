@@ -67,7 +67,7 @@ class SchoolClassController extends Controller
         $students = $class->students;
         $studentsOnlyFIO = [];
         foreach ($students as $student) {
-            array_push($studentsOnlyFIO, $student->only('id', 'name', 'surname', 'patronymic'));
+            array_push($studentsOnlyFIO, $student->only('id', 'name', 'surname', 'patronymic', 'photo'));
         }
         return response()->json($studentsOnlyFIO, 200);
     }

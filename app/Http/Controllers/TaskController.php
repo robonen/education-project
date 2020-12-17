@@ -44,9 +44,9 @@ class TaskController extends Controller
     }
 
     public function store(TaskRequest $request) {
-        $teacherId = auth()->user()->id;
-        $banktaskName = BankTask::find($request->banktask_id)->name;
-        $banktaskSubject = BankTask::find($request->banktask_id)->subject_id;
+        $teacherId = $request->teacher_id;                                //auth()->user()->id;
+//        $banktaskName = BankTask::find($request->banktask_id)->name;
+//        $banktaskSubject = BankTask::find($request->banktask_id)->subject_id;
         $newTask = Task::create($request->all() + ['teacher_id' => $teacherId
                                        ]);
 

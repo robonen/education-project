@@ -17,7 +17,6 @@ Route::apiResource('headteachers', 'Users\HeadTeacherController');
 
 Route::apiResource('teachers', 'Users\TeacherController');//->middleware(['auth:api','role:headteacher|teacher']);
 Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses'); //получить классы у которых ведет учитель
-Route::get('teacher/{teacher}/classes', 'Users\TeacherController@getClasses');
 Route::get('teacher/{teacher}/classes/{class}/unchecked-task', 'Users\TeacherController@getUncheckedTask');
 
 Route::apiResource('students', 'Users\StudentController');
@@ -25,7 +24,7 @@ Route::get('/student/{student}/answers', 'Users\StudentController@getAnswers');
 
 Route::apiResource('parents', 'Users\ParenttController');
 
-Route::apiResource('subjects', 'BankTask\SubjectController');
+Route::apiResource('subjects', 'BankTask\SubjectController');//->middleware(['auth:api', 'role:teacher|headteacher|student']);
 
 Route::apiResource('classes', 'SchoolClassController');
 Route::post('classes/{class}/teacher', 'SchoolClassController@addTeacher');
@@ -36,12 +35,12 @@ Route::get('classes/{class}/subjects', 'SchoolClassController@getSubjects'); //�
 
 Route::apiResource('journal', 'JournalController');
 
-Route::apiResource('themes',    'BankTask\ThemeController');
+Route::apiResource('themes',    'BankTask\ThemeController');//->middleware('auth:api');
 
 Route::apiResource('timetables', 'TimetableController');
 
-Route::get('banktasks', 'BankTask\BankTaskController@index'); //получение списка всех заданий
-Route::group(['prefix' => 'banktask'], function () {
+Route::get('banktasks', 'BankTask\BankTaskController@index'); //->middleware(['auth:api', 'role:teacher|headteacher']); //получение списка всех заданий
+Route::group(['prefix' => 'banktask' ], function () {  // 'middleware' => 'auth:api', 'role:teacher|headteacher'
     Route::post('', 'BankTask\BankTaskController@store'); //создание задания
     Route::get('{banktask}', 'BankTask\BankTaskController@show'); //получение задания
     Route::put('{banktask}', 'BankTask\BankTaskController@update'); //обновление задания
@@ -65,7 +64,7 @@ Route::group(['prefix' => 'news'], function () {
    Route::delete('/photo/{file}', 'News\NewsFileController@delete');
 });
 
-Route::group(['prefix' => 'task'], function () {
+Route::group(['prefix' => 'task' ], function () {                   // 'middleware' => ['auth:api']
     Route::post('', 'TaskController@store'); // Добавить таск
     Route::get('', 'TaskController@index'); // Показать задания для класса (в запросе нужно указывать Id класса)
     Route::get('/{task}', 'TaskController@show'); //Показать задание

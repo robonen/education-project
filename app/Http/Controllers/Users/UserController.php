@@ -31,6 +31,7 @@ class UserController extends Controller
         }
         $user->toArray();
         $user['role'] = auth()->user()->role->name;
+        $user['email'] = auth()->user()->email;
         return response()->json($user, 200);
     }
 

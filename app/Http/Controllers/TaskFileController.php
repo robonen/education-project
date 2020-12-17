@@ -17,9 +17,7 @@ class TaskFileController extends Controller
     public function store(Task $task, Request $request)
     {
 
-        $taskId = $task->id;                        // НАДО ПОДУМАТЬ. СЕЙЧАС РАБОТАЕТ НЕКОРРЕКТНО. НУЖНО СДЕЛАТЬ ТАК ЧТО СИСТЕМА АВТОМАТИЧЕСКИ ОПРЕДЕЛЯЛА К КАКОМУ УЧЕНИКУ ЗАЛИВАТЬ ФАЙЛ УЧИТЕЛЮ
-        $studentId = auth()->user()->id;
-        $teacherId = auth()->user()->id;
+        $taskId = $task->id;
         $max_size = (int)ini_get('upload_max_filesize') * 1000;
         $all_ext = implode(',', $this->allExtensions());
         $this->validate($request, [
@@ -30,15 +28,18 @@ class TaskFileController extends Controller
         $file = $request->file('file');
         $ext = $file->getClientOriginalExtension();
         $type = $this->getType($ext);
+        $userId = Student::find($request->student_id)->user_id;
+        if ($request->has('by_teacher') && ($request->by_teacher = 1)) {                          // auth()->user()->role_id == 2
 
-        if ($request->has('by_teacher') && (auth()->user()->role_id == 2)) {
-            $pathToFile = 'public/task/' . $taskId . '/student/' . $studentId . '/review/' . $type . '/';
-            $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/review/' . $type . '/' . $request->name;
+            $pathToFile = 'public/task/' . $taskId . '/student/' . $userId . '/review/' . $type . '/';
+            $uri = '/storage/task' . '/' . $taskId . '/student/'. $userId . '/review/' . $type . '/' . $request->name;
             $review = 1;
+
         } elseif (true) {
-            $pathToFile = 'public/task/' . $taskId . '/student/' . $studentId . '/' . $type . '/';
-            $path = '/storage/task' . '/' . $taskId . '/student/'. $studentId . '/' . $type . '/' . $request->name;
+            $pathToFile = 'public/task/' . $taskId . '/student/' . $userId . '/' . $type . '/';
+            $uri = '/storage/task' . '/' . $taskId . '/student/'. $userId . '/' . $type . '/' . $request->name;
             $review = 0;
+
         }
 
 
@@ -49,14 +50,14 @@ class TaskFileController extends Controller
                         'type' => $type,
                         'extension' => $ext,
                         'task_id' => $taskId,
-                        'url' => $path,
-                        'user_id' => $studentId,
+                        'url' => $uri,
+                        'user_id' => $userId,
                         'review' => $review,
                         $file,
                         $request->name . $ext
                     ]
                 );
-                return response()->json($request->by_teacher, 201);
+                return response()->json(true, 201);
             }
         return response()->json(false, 422);
     }
@@ -98,8 +99,13 @@ class TaskFileController extends Controller
 
     public function delete(TaskFile $file) {
         $studentId = Student::where('user_id', '=', $file->user_id)->get()->id;
-        if (Storage::disk('local')->exists('/public/task/' . $file->task_id . '/student/' . $studentId . $file->type . '/' . $file->name)) {
-            if (Storage::disk('local')->delete('/public/task/' . $file->task_id . '/student/' . $studentId . $file->type . '/' . $file->name)) {
+        if ($file->review == true) {
+            $pathToFile = '/public/task/' . $file->task_id . '/student/' . $studentId . '/review/' . $file->type . '/' . $file->name;
+        } else {
+            $pathToFile = '/public/task/' . $file->task_id . '/student/' . $studentId . $file->type . '/' . $file->name;
+        }
+        if (Storage::disk('local')->exists($pathToFile)) {
+            if (Storage::disk('local')->delete($pathToFile)) {
                 return response()->json($file->delete());
             }
         }

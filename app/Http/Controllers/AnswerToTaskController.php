@@ -16,9 +16,10 @@ class AnswerToTaskController extends Controller
         $input = $request->all();
 
 
-        $answer = AnswerToTask::create($input+
-                                       ['task_id' =>  $task->id,
-                                       'student_id' => auth()->user()->id]);
+        $answer = AnswerToTask::create($input+ [
+                                       'task_id' =>  $task->id,
+                                       'student_id' => $request->student_id
+                                       ]);       //auth()->user()->id]
         return response()->json($answer, 201);
 
     }
