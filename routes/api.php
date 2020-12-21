@@ -47,8 +47,8 @@ Route::group(['prefix' => 'banktask' ], function () {  // 'middleware' => 'auth:
     Route::delete('{banktask}', 'BankTask\BankTaskController@delete'); //удаление задания
     Route::post('{banktask}/addfile', 'BankTask\BankTaskFileController@store');
     Route::get('{banktask}/files', 'BankTask\BankTaskFileController@showFiles');
-    Route::delete('banktask/file/{file}/delete', 'BankTask\BankTaskFileController@delete');
-    Route::put('banktask/file/{file}/update', 'BankTask\BankTaskFileController@update');
+    Route::delete('/file/{file}/delete', 'BankTask\BankTaskFileController@delete');
+    Route::put('/file/{file}/update', 'BankTask\BankTaskFileController@update');
 });
 
 
